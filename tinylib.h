@@ -97,6 +97,10 @@ static inline int open(const char *pathname, int flags) {
 	return (int)__syscall2(2, (long)pathname, flags);
 }
 
+static inline int openat(int dirfd, const char *pathname, int flags) {
+	return (int)__syscall3(257, (long)dirfd, (long)pathname, flags);
+}
+
 static inline int close(int fd) {
 	return (int)__syscall1(3, (long)fd);
 }
@@ -129,6 +133,16 @@ static inline void exit(int status) {
 
 static inline int ioctl(int fd, unsigned long request, unsigned long data) {
 	return __syscall3(16, (long)fd, (long)request, (long)data);
+}
+
+static inline int symlink(const char *target, const char *linkpath) {
+	return (int)__syscall2(88, (long)target, (long)linkpath);
+}
+
+#define SEEK_SET 0
+
+static inline off_t lseek(int fd, off_t offset, int whence) {
+	return __syscall3(8, (long)fd, (long)offset, (long)whence);
 }
 
 #define AT_EMPTY_PATH 0x1000

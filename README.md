@@ -11,8 +11,10 @@ The project is firstly used at [here](https://github.com/hzqmwne/my-ctf-challeng
 
 Add xxx.c file here, include tinylib.h, modify Makefile, then `make`.  
 
-It will generate three files for each .c file:
-\*.elf: raw ELF created by gcc
-\*.textbin: pure shellcode
-\*.out: the tiny elf file
+It will generate three files for each .c file:  
+\*.elf: raw ELF created by gcc  
+\*.textbin: pure shellcode  
+\*.out: the tiny elf file  
+
+(Need gcc 8 or later to support `-static-pie` option)
 
