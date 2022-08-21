@@ -156,5 +156,54 @@ static inline int memfd_create(const char *name, unsigned int flags) {
 }
 
 
+#define AF_ALG 38
+#define SOCK_SEQPACKET 5
+
+typedef uint32_t socklen_t;
+
+struct sockaddr {
+	uint16_t sa_family;
+	char     sa_data[];
+};
+
+struct sockaddr_alg {
+	uint16_t salg_family;
+	uint8_t	 salg_type[14];
+	uint32_t salg_feat;
+	uint32_t salg_mask;
+	uint8_t	 salg_name[64];
+};
+
+static inline int socket(int domain, int type, int protocol) {
+	return __syscall3(41, (long)domain, (long)type, (long)protocol);
+}
+
+static inline int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
+	return __syscall3(49, (long)sockfd, (long)addr, (long)addrlen);
+}
+
+static inline int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
+	return __syscall3(43, (long)sockfd, (long)addr, (long)addrlen);
+}
+
+
+
+// https://unix.superglobalmegacorp.com/Net2/newsrc/sys/ipc.h.html
+#define	IPC_CREAT	01000	/* create entry if key does not exist */
+#define	IPC_EXCL	02000	/* fail if key exists */
+typedef long key_t;
+
+static inline int shmget(key_t key, size_t size, int shmflg) {
+	return __syscall3(29, (long)key, (long)size, (long)shmflg);
+}
+
+static inline void *shmat(int shmid, const void *shmaddr, int shmflg) {
+	return (void *)__syscall3(30, (long)shmid, (long)shmaddr, (long)shmflg);
+}
+
+static inline int shmdt(const void *shmaddr) {
+	return __syscall1(67, (long)shmaddr);
+}
+
 #endif
 
