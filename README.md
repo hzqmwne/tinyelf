@@ -12,9 +12,18 @@ The project is firstly used at [here](https://github.com/hzqmwne/my-ctf-challeng
 Add xxx.c file here, include tinylib.h, modify Makefile, then `make`.  
 
 It will generate three files for each .c file:  
-\*.elf: raw ELF created by gcc  
-\*.textbin: pure shellcode  
-\*.out: the tiny elf file  
+- \*.elf: raw ELF created by gcc  
+- \*.textbin: pure shellcode  
+- \*.out: the tiny elf file  
 
 (Need gcc 8 or later to support `-static-pie` option)
 
+
+## nolibc
+
+Refer to this LWN article: [Nolibc: a minimal C-library replacement shipped with the kernel](https://lwn.net/Articles/920158/ )  
+
+It is a very interesting project, and it has appeared in Linux Kernel mainline since 5.1 !  
+see [tools/include/nolibc](https://elixir.bootlin.com/linux/v6.2-rc4/source/tools/include/nolibc )  
+
+This may be a better replacement of `tinylib.h` in this project.  
