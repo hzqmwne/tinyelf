@@ -93,6 +93,9 @@ static inline ssize_t write(int fd, const void *buf, size_t count) {
 #define O_WRONLY 1
 #define O_RDWR 2
 
+#define O_CREAT 00000100
+#define O_TRUNC 00001000
+
 static inline int open(const char *pathname, int flags) {
 	return (int)__syscall2(2, (long)pathname, flags);
 }
@@ -205,5 +208,49 @@ static inline int shmdt(const void *shmaddr) {
 	return __syscall1(67, (long)shmaddr);
 }
 
-#endif
 
+
+typedef uint32_t uid_t;
+typedef uint32_t gid_t;
+
+static inline int setresuid(uid_t ruid, uid_t euid, uid_t suid) {
+	return __syscall3(117, (long)ruid, (long)euid, (long)suid);
+}
+
+static inline int setresgid(gid_t rgid, gid_t egid, gid_t sgid) {
+	return __syscall3(119, (long)rgid, (long)egid, (long)sgid);
+}
+
+
+static inline int chdir(const char *path) {
+	return __syscall1(80, (long)path);
+}
+
+static inline int fchdir(int fd) {
+	return __syscall1(81, (long)fd);
+}
+
+static inline int dup2(int oldfd, int newfd) {
+	return __syscall2(33, (long)oldfd, (long)newfd);
+}
+
+static inline int chroot(const char *path) {
+	return __syscall1(161, (long)path);
+}
+
+#define	R_OK	4		/* Test for read permission.  */
+#define	W_OK	2		/* Test for write permission.  */
+#define	X_OK	1		/* Test for execute permission.  */
+#define	F_OK	0		/* Test for existence.  */
+
+static inline int access(const char *pathname, int mode) {
+	return __syscall2(21, (long)pathname, (long)mode);
+}
+
+typedef uint32_t mode_t;
+
+static inline int mkdir(const char *pathname, mode_t mode) {
+	return __syscall2(83, (long)pathname, (long)mode);
+}
+
+#endif

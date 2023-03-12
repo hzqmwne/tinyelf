@@ -125,7 +125,7 @@ typedef struct
 
 static int do_input(char *buf) {
 	int len = 0;
-	int maxsize = 4096;
+	int maxsize = 4096*1024;
 	while (1) {
 		int r = read(0, buf+len, maxsize-len);
 		if (r <= 0) {
@@ -209,8 +209,8 @@ static void do_linker(char *middle, int middle_len, char *binary, int *p_binary_
 }
 
 int main(int argc, char **argv, char **envp) {
-	char middle[4096];
-	char binary[8192];
+	static char middle[4096*1024];
+	static char binary[8192*1024];
 	int binary_len = 0;
 	int middle_len = do_input(middle);
 	do_linker(middle, middle_len, binary, &binary_len);
