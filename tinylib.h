@@ -88,6 +88,23 @@ static inline ssize_t write(int fd, const void *buf, size_t count) {
 	return (ssize_t)__syscall3(1, (long)fd, (long)buf, (long)count);
 }
 
+static inline ssize_t pread64(int fd, void *buf, size_t count, off_t offset) {
+	return (ssize_t)__syscall4(17, (long)fd, (long)buf, (long)count, (long)offset);
+}
+
+static inline ssize_t pwrite64(int fd, const void *buf, size_t count, off_t offset) {
+	return (ssize_t)__syscall4(18, (long)fd, (long)buf, (long)count, (long)offset);
+}
+
+struct iovec {
+	void  *iov_base;    /* Starting address */
+	size_t iov_len;     /* Number of bytes to transfer */
+};
+
+static inline ssize_t writev(int fd, const struct iovec *iov, int iovcnt) {
+	return (ssize_t)__syscall3(20, (long)fd, (long)iov, (long)iovcnt);
+}
+
 // https://git.musl-libc.org/cgit/musl/tree/include/fcntl.h
 #define O_RDONLY 0
 #define O_WRONLY 1
